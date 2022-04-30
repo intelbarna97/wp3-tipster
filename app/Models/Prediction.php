@@ -10,7 +10,7 @@ class Prediction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'game_id',
+        'match_id',
         'user_id',
         'result',
     ];

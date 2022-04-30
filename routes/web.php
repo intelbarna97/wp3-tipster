@@ -19,6 +19,8 @@ Route::get('/', [Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/game/{game}', [Controllers\GameController::class, 'show'])->name('game.details');
 
 Route::middleware(['auth'])->group(function() {
+    
+    Route::post('/{game}', [Controllers\HomeController::class, 'predict']);
 
     Route::get('/game', [Controllers\GameController::class, 'create'])->name('game.create');
     Route::post('/game', [Controllers\GameController::class, 'store']);
