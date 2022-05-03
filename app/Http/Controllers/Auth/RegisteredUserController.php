@@ -61,6 +61,7 @@ class RegisteredUserController extends Controller
 
     public function update(Request $request)
     {
+        
         if(Hash::check($request->password, Auth::user()->password))
         {
         $request->validate([

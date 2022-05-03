@@ -32,15 +32,20 @@ class HomeController extends Controller
                 }
             }
         }
-        
-        $predictions = Db::table('predictions')->select('match_id')->where('user_id', Auth::user()->id)->get()->toArray();
-        $predictions = Arr::pluck($predictions, 'match_id');
-        return view('home')->with(compact('games', 'predictions'));
+        if(Auth::id()!=null)
+        {
+            $predictions = Db::table('predictions')->select('match_id')->where('user_id', Auth::user()->id)->get()->toArray();
+            $predictions = Arr::pluck($predictions, 'match_id');
+            return view('home')->with(compact('games', 'predictions'));
+        }
+        else
+        {            
+            return view('home')->with(compact('games'));
+        }
     }
 
     public function predict(Request $request, Game $game)
     {
-
         $check = DB::table('predictions')->select('user_id', 'match_id')
         ->where('user_id','=',Auth::user()->id)
         ->where('match_id','=',$game->team1_id)

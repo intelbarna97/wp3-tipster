@@ -17,7 +17,8 @@
             <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
             <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
           </div>
-
+          @auth
+              
           @if (!in_array($game->id, $predictions))
                 <div class="d-flex p-2">
                     
@@ -41,5 +42,6 @@
                     </div> 
                 </div>
           @endif
+          @endauth
     </div>
 </div>

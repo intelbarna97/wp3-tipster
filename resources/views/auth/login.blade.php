@@ -6,7 +6,7 @@
             <div class="card">
         <div class="card-body">
             <h3 class="display-3 mb-5">{{__('Sign in')}}</h3>
-            <form action="{{ route('login')}}" method="POST">
+            <form action="{{ route('login') }}" method="post">
                 @csrf
                 
                 <x-forms.input name="email" type="email" label="{{ __('Email') }}"/>
