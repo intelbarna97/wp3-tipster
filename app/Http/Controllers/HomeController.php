@@ -64,10 +64,10 @@ class HomeController extends Controller
 
     public static function prediction(Game $game, $result)
     {
-        $allpredictioncount =DB::table('predictions')->select(DB::raw('count(id) as count'))->get();
+        $allpredictioncount =DB::table('predictions')->select(DB::raw('count(id) as count'))->where('match_id','=',$game->id)->get();
         $goodpredictions = DB::table('predictions')->select(DB::raw('count(id) as count'))->where('match_id','=',$game->id)->where('result','=',$result)->get();
 
-        return ($goodpredictions[0]->count/$allpredictioncount[0]->count)*100;
+        return $allpredictioncount[0]->count==0? 0 : ($goodpredictions[0]->count/$allpredictioncount[0]->count)*100;
 
     }
 }

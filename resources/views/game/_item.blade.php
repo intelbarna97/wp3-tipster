@@ -13,9 +13,9 @@
             @endauth
         </div>
         <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: {{ App\Http\Controllers\HomeController::prediction($game,'h')}}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-            <div class="progress-bar bg-success" role="progressbar" style="width: {{ App\Http\Controllers\HomeController::prediction($game,'x')}}%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-            <div class="progress-bar bg-info" role="progressbar" style="width: {{ App\Http\Controllers\HomeController::prediction($game,'a')}}%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" style="width: {{ App\Http\Controllers\HomeController::prediction($game,'h')}}%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">Home: {{ App\Http\Controllers\HomeController::prediction($game,'h')}}%</div>
+            <div class="progress-bar bg-success" role="progressbar" style="width: {{ App\Http\Controllers\HomeController::prediction($game,'x')}}%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">Draw: {{ App\Http\Controllers\HomeController::prediction($game,'x')}}%</div>
+            <div class="progress-bar bg-info" role="progressbar" style="width: {{ App\Http\Controllers\HomeController::prediction($game,'a')}}%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">Away: {{ App\Http\Controllers\HomeController::prediction($game,'a')}}%</div>
           </div>
           @auth
               
