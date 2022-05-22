@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Game;
+use App\Models\League;
 use App\Models\Team;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +17,9 @@ class HomeController extends Controller
     public function index()
     {
         $teams = Team::all();
+        $leagues = League::all();
         
-        $games = Game::orderBy('created_at', 'desc')->paginate(10);
+        $games = Game::orderBy('created_at', 'desc')->paginate(5);
         for ($i=0; $i < count($games); $i++) { 
             foreach($teams as $team)
             {
@@ -28,6 +30,14 @@ class HomeController extends Controller
                 if($games[$i]->team2_id==$team->id)
                 {
                     $games[$i]->team2_id=$team->name;
+                }
+            }
+
+            foreach($leagues as $league)
+            {
+                if($games[$i]->league_id==$league->id)
+                {
+                    $games[$i]->league_id=$league->name;
                 }
             }
         }
