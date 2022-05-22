@@ -18,6 +18,8 @@ use App\Http\Controllers;
 Route::get('/', [Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/game/{game}', [Controllers\GameController::class, 'show'])->name('game.details');
 
+require __DIR__.'/auth.php';
+
 Route::middleware(['auth'])->group(function() {
     
     Route::post('/{game}', [Controllers\HomeController::class, 'predict']);
@@ -44,5 +46,3 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/team', [Controllers\TeamController::class, 'store']);
     
 });
-
-require __DIR__.'/auth.php';

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Game;
-use App\Models\Prediction;
 use App\Models\Team;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +31,7 @@ class HomeController extends Controller
                 }
             }
         }
-        if(Auth::id()!=null)
+        if(Auth::check())
         {
             $predictions = Db::table('predictions')->select('match_id')->where('user_id', Auth::user()->id)->get()->toArray();
             $predictions = Arr::pluck($predictions, 'match_id');
@@ -61,5 +60,14 @@ class HomeController extends Controller
 
         
         return redirect()->route('home');
+    }
+
+    public static function prediction(Game $game, $result)
+    {
+        $allpredictioncount =DB::table('predictions')->select(DB::raw('count(id) as count'))->get();
+        $goodpredictions = DB::table('predictions')->select(DB::raw('count(id) as count'))->where('match_id','=',$game->id)->where('result','=',$result)->get();
+
+        return ($goodpredictions[0]->count/$allpredictioncount[0]->count)*100;
+
     }
 }
