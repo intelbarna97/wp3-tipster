@@ -7,13 +7,17 @@
             <div class="d-inline-flex p-2 "> {{$game->team1_id}} - {{$game->team2_id}}</div>
 
             @auth
+            @if (App\Http\Controllers\Auth\AuthenticatedSessionController::isAdmin(Auth::user()))
+
             <div class="d-inline-flex p-2 justify-content-end">
                 <div class="text-end">
                     <a class="btn btn-sm btn-primary" href="{{ route('game.edit', $game)}}">
                         Edit
                     </a>
                 </div>
-            </div>                
+            </div>    
+                
+            @endif            
             @endauth
         </div>
         <div class="progress">

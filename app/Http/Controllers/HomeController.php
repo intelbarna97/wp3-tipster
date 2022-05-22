@@ -14,12 +14,22 @@ use function PHPUnit\Framework\isEmpty;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index($selectedLeague = null)
     {
-        $teams = Team::all();
-        $leagues = League::all();
         
-        $games = Game::orderBy('created_at', 'desc')->paginate(5);
+        $teams = Team::all();
+
+        $leagues = League::all();
+
+        if(isset($selectedLeague))
+        {
+            $games = Game::select()->where('league_id','=',$selectedLeague)->paginate(5);
+        }
+        else
+        {            
+            $games = Game::orderBy('created_at', 'desc')->paginate(5);
+        }
+        
         for ($i=0; $i < count($games); $i++) { 
             foreach($teams as $team)
             {
@@ -80,4 +90,5 @@ class HomeController extends Controller
         return $allpredictioncount[0]->count==0? 0 : ($goodpredictions[0]->count/$allpredictioncount[0]->count)*100;
 
     }
+
 }
