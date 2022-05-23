@@ -65,19 +65,24 @@ class HomeController extends Controller
 
     public function predict(Request $request, Game $game)
     {
-        $check = DB::table('predictions')->select('user_id', 'match_id')
-        ->where('user_id','=',Auth::user()->id)
-        ->where('match_id','=',$game->team1_id)
-        ->get()->toArray();
-        if(isEmpty($check))
+        if(Auth::check())
         {
-        DB::table('predictions')->insert([
-            'match_id'=>$game->id,
-            'user_id'=>Auth::user()->id,
-            'result'=>$request->result,
-        ]);
-        }
+            
+            $check = DB::table('predictions')->select('user_id', 'match_id')
+                ->where('user_id','=',Auth::user()->id)
+                ->where('match_id','=',$game->team1_id)
+                ->get()->toArray();
+                
+            if(isEmpty($check))
+            {
+            DB::table('predictions')->insert([
+                'match_id'=>$game->id,
+                'user_id'=>Auth::user()->id,
+                'result'=>$request->result,
+            ]);
+            }
 
+        }
         
         return redirect()->route('home');
     }

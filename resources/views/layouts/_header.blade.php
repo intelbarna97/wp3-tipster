@@ -5,6 +5,8 @@
         <div class="col-4 d-flex justify-content-start align-items-center">
         <img src="https://www.pngall.com/wp-content/uploads/5/Sports-Ball-PNG-Image.png" class="img-fluid rounded float-left" width="50" height="50" alt="Responsive image">
         @auth
+
+        
         @if (App\Http\Controllers\Auth\AuthenticatedSessionController::isAdmin(Auth::user()))
             
         
@@ -30,7 +32,11 @@
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
         @auth
+        <div class="d-flex">
+          <img class="rounded-circle" width="40" src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->username }}">
+        </div>
         <div class="nav-item dropdown">
+        
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{ Auth::user()->name }}
           </a>
@@ -53,7 +59,7 @@
   <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
       @foreach ($leagues as $league)
-      <a class="p-2 link-secondary" href="{{ route('home', $league->id)}}">{{ $league->name }}</a>
+      <a class="p-2 link-secondary" href="{{ route('list', $league->id)}}">{{ $league->name }}</a>
       @endforeach
     </nav>
   </div>

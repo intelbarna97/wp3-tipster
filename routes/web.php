@@ -16,12 +16,11 @@ use App\Http\Controllers;
 */
 
 
-Route::get('/{league}', [Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('/{league?}', [Controllers\HomeController::class, 'index'])->name('list');
+require __DIR__.'/auth.php';
+Route::get('/', [Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/{league}', [Controllers\HomeController::class, 'index'])->name('list');
 Route::get('/game/{game}', [Controllers\GameController::class, 'show'])->name('game.details');
 
-require __DIR__.'/auth.php';
 
 Route::middleware(['auth'])->group(function() {
     
