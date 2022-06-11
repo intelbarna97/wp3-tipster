@@ -17,14 +17,12 @@ use App\Http\Controllers;
 
 
 require __DIR__.'/auth.php';
-Route::get('/', [Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/{league}', [Controllers\HomeController::class, 'index'])->name('list');
-Route::get('/game/{game}', [Controllers\GameController::class, 'show'])->name('game.details');
 
 
 Route::middleware(['auth'])->group(function() {
     
     Route::post('/{game}', [Controllers\HomeController::class, 'predict']);
+
 
     Route::get('/game', [Controllers\GameController::class, 'create'])->name('game.create');
     Route::post('/game', [Controllers\GameController::class, 'store']);
@@ -47,4 +45,12 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/team', [Controllers\TeamController::class, 'create'])->name('team.create');
     Route::post('/team', [Controllers\TeamController::class, 'store']);
     
+    Route::get('/teamslist', [Controllers\TeamController::class, 'list'])->name('team.list');    
+    Route::get('/teamslist/{team}', [Controllers\TeamController::class, 'destroy'])->name('team.delete');
+    
 });
+
+
+Route::get('/', [Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/{league}', [Controllers\HomeController::class, 'index'])->name('list');
+Route::get('/game/{game}', [Controllers\GameController::class, 'show'])->name('game.details');

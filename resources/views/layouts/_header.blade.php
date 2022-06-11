@@ -3,8 +3,10 @@
     <div class="row flex-nowrap justify-content-between align-items-center">
       <div class="col-4 pt-1">
         <div class="col-4 d-flex justify-content-start align-items-center">
-        <img src="https://www.pngall.com/wp-content/uploads/5/Sports-Ball-PNG-Image.png" class="img-fluid rounded float-left" width="50" height="50" alt="Responsive image">
+        <img src="https://www.pngall.com/wp-content/uploads/5/Sports-Ball-PNG-Image.png" class="img-fluid rounded float-left" style="padding: 5px" width="50" height="50" alt="Responsive image">
         @auth
+
+        <a class="btn btn-outline-primary" href="{{ route('team.list')}}">{{ __('Teams') }}</a>
 
         
         @if (App\Http\Controllers\Auth\AuthenticatedSessionController::isAdmin(Auth::user()))

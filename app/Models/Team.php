@@ -21,7 +21,7 @@ class Team extends Model
         return $this->belongsTo(League::class);
     }
 
-    public function coutry()
+    public function country()
     {
         return $this->belongsTo(Country::class);
     }

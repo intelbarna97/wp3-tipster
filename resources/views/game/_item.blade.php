@@ -12,7 +12,7 @@
             <div class="d-inline-flex p-2 justify-content-end">
                 <div class="text-end">
                     <a class="btn btn-sm btn-primary" href="{{ route('game.edit', $game)}}">
-                        Edit
+                        {{ __('Edit') }}
                     </a>
                 </div>
             </div>    
@@ -25,7 +25,7 @@
                 style="width: {{ App\Http\Controllers\HomeController::prediction($game,'h')}}%" 
                 aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
 
-                Home: {{ number_format((float)(App\Http\Controllers\HomeController::prediction($game,'h')), 0, '.','')}}%
+                {{ __('Home:') }} {{ number_format((float)(App\Http\Controllers\HomeController::prediction($game,'h')), 0, '.','')}}%
 
             </div>
 
@@ -33,7 +33,7 @@
                 style="width: {{ App\Http\Controllers\HomeController::prediction($game,'x')}}%" 
                 aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
 
-                Draw: {{ number_format((float)(App\Http\Controllers\HomeController::prediction($game,'x')), 0, '.','')}}%
+                {{ __('Draw:') }} {{ number_format((float)(App\Http\Controllers\HomeController::prediction($game,'x')), 0, '.','')}}%
 
             </div>
 
@@ -41,7 +41,7 @@
                 style="width: {{ App\Http\Controllers\HomeController::prediction($game,'a')}}%" 
                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
 
-                Away: {{ number_format((float)(App\Http\Controllers\HomeController::prediction($game,'a')), 0, '.','')}}%
+                {{ __('Away:') }} {{ number_format((float)(App\Http\Controllers\HomeController::prediction($game,'a')), 0, '.','')}}%
 
             </div>
 
@@ -72,5 +72,14 @@
                 </div>
           @endif
           @endauth
+
+          <div class="d-flex p-2 justify-content-around align-items-center">
+                    
+            <div class="d-inline-flex p-2">
+                <a class="btn btn-sm btn-primary" href="{{ route('game.details', $game)}}">
+                    {{ __('View match') }}
+                </a>
+            </div>
+        </div>
     </div>
 </div>

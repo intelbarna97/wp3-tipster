@@ -7,6 +7,10 @@ use App\Models\Country;
 use App\Models\League;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+use function Symfony\Component\String\b;
 
 class TeamController extends Controller
 {
@@ -61,7 +65,16 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        //
+
+    }
+
+    public function list()
+    {        
+        if(Auth::check())
+        {
+            $teams = Team::orderby('league_id')->get();
+            return view('team.list')->with(compact('teams'));
+        }
     }
 
     /**
@@ -95,6 +108,12 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        //
+        if(Auth::user()->admin)
+        {
+            DB::table('teams')->where('id','=',$team->id)->delete();
+            return redirect()->route('team.list')->with('success', __('Team deleted'));
+        }
+        
+        return redirect()->route('home');
     }
 }
