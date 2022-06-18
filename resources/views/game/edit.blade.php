@@ -26,7 +26,7 @@
                 <div class="mb-3">
                     <select name="team1_id" class="form-control{{ $errors->has('team1_id') ? ' is-invalid' : ''}}">
                         <option value="{{$game->team1_id}}">
-                            {{$teams[($game->team1_id)-1]->name}}
+                            {{$game->team1->name}}
                         </option>
                         @foreach ($teams as $team)
                             <option value="{{ $team->id }}" {{ old('team1_id') == $league->id ? 'selected' : ''}}>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="mb-3">
                     <select name="team2_id" class="form-control{{ $errors->has('team2_id') ? ' is-invalid' : ''}}">
-                        <option value="{{$game->team2_id}}">{{$teams[($game->team2_id)-1]->name}}</option>
+                        <option value="{{$game->team2_id}}">{{$game->team2->name}}</option>
                         @foreach ($teams as $team)
                             <option value="{{ $team->id }}" {{ old('team2_id') == $league->id ? 'selected' : ''}}>
                                 {{ $team->name }}

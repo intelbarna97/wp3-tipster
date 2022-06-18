@@ -8,11 +8,11 @@
             <h3 class="display-3">{{__('Add New Country')}}</h3>
         </div>
         <div class="card-body">
-            <form action="{{ route('country.create') }}" method="POST">
+            <form method="POST" action="{{ route('country.create') }}" >
                 @csrf
                 <x-forms.input name="name" type="text" label="{{ __('Country name') }}"/>
                 <div class="mb-3">
-                    <button class="btn btn-primary btn-lg">Add</button>
+                    <button class="btn btn-primary btn-lg">{{ __('Add') }}</button>
                 </div>
             </form>
         </div>

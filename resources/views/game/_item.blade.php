@@ -11,7 +11,7 @@
 
             <div class="d-inline-flex p-2 justify-content-end">
                 <div class="text-end">
-                    <a class="btn btn-sm btn-primary" href="{{ route('game.edit', $game)}}">
+                    <a class="btn btn-sm btn-primary" href="{{ route('game.edit', $game->id)}}">
                         {{ __('Edit') }}
                     </a>
                 </div>

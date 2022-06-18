@@ -21,7 +21,6 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth'])->group(function() {
     
-    Route::post('/{game}', [Controllers\HomeController::class, 'predict']);
 
 
     Route::get('/game', [Controllers\GameController::class, 'create'])->name('game.create');
@@ -47,6 +46,8 @@ Route::middleware(['auth'])->group(function() {
     
     Route::get('/teamslist', [Controllers\TeamController::class, 'list'])->name('team.list');    
     Route::get('/teamslist/{team}', [Controllers\TeamController::class, 'destroy'])->name('team.delete');
+    
+    Route::post('/{game}', [Controllers\HomeController::class, 'predict']);
     
 });
 

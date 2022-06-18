@@ -37,4 +37,18 @@ class Game extends Model
     {
         return $this->hasMany(Prediction::class);
     }
+
+    public function getHasImageAttribute()
+    {
+        return $this->img != null;
+    }
+
+    public function getImageAttribute()
+    {
+        if($this->has_image)
+        {
+            return asset("upload/games/{$this->img}");
+        }
+        return "https://www.pngall.com/wp-content/uploads/5/Sports-Ball-PNG-Image.png";
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Image;
 use App\Models\Game;
 use App\Models\League;
 use App\Models\Team;
@@ -49,12 +50,22 @@ class GameController extends Controller
             'team2_id'=>'required|exists:teams,id|different:team1_id',
             'team1_goals'=>'min:0',
             'team2_goals'=>'min:0',
-            'result'=>'required',            
+            'result'=>'required',
+            'img' => 'file|image',
             ]
         );
 
 
             $game = Game::create($request->except('_token'));
+
+            $image = $this->uploadImage($request);
+
+            if($image)
+            {
+                $game->img = $image->basename;
+                $game->save();
+            }
+
             return redirect()->route('game.details', $game)->with('success', __('Match saved successfully'));
         
 
@@ -68,9 +79,7 @@ class GameController extends Controller
      */
     public function show(Game $game)
     {
-        $team1 = DB::table('teams')->select('name')->where('id','=',$game->team1_id)->get();
-        $team2 = DB::table('teams')->select('name')->where('id','=',$game->team2_id)->get();
-        return view('game.show', $game)->with(compact('game', 'team1', 'team2'));
+        return view('game.show', $game)->with(compact('game'));
     }
 
     /**
@@ -109,5 +118,16 @@ class GameController extends Controller
     public function destroy(Game $game)
     {
         //
+    }
+
+    private function uploadImage(Request $request)
+    {
+        $file = $request->file('img');
+
+        $filename = uniqid();
+
+        $img = Image::make($file)->save(public_path("upload/games/{$filename}.{$file->extension()}"));
+
+        return $img;
     }
 }

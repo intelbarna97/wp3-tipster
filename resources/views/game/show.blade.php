@@ -1,13 +1,25 @@
 @extends('layouts.main')
 @section('content')
 <div class="col-lg-6 col-md-8 mx-auto">
-    <div class="card mb-3">        
+    
+    <div class="d-flex flex-row">
+        <div class="p-2">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <img src="{{$game->image}}" alt="{{$game->team1->name . $game->team2->name}}" width="95" height="95" style="object-fit: cover">
+                </div>
+        
+        </div>
+    </div>
+    <div class="p-2">
+    <div class="card mb-3">    
+            
 
         <div class="card-body">
 
             <div class="row p-2 justify-content-center align-items-center">
                 
-                {{$team1[0]->name}} - {{$team2[0]->name}} | {{$game->created_at->diffForHumans()}}
+                {{$game->team1->name}} - {{$game->team2->name}} | {{$game->created_at->diffForHumans()}}
 
             </div>
 
@@ -44,5 +56,7 @@
       
         </div>
     </div>
+</div>
+</div>
 </div>
 @endsection
