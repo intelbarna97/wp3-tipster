@@ -51,4 +51,9 @@ class Game extends Model
         }
         return "https://www.pngall.com/wp-content/uploads/5/Sports-Ball-PNG-Image.png";
     }
+    
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

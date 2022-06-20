@@ -28,6 +28,8 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/game/{game}/edit', [Controllers\GameController::class, 'edit'])->name('game.edit');
     Route::post('/game/{game}/edit', [Controllers\GameController::class, 'update']);
+
+    Route::post('/game/{game}/comment', [Controllers\GameController::class, 'comment'])->name('game.comment');
     
     Route::get('/user', [Controllers\Auth\RegisteredUserController::class, 'edit'])->name('auth.edit');
     Route::post('/user', [Controllers\Auth\RegisteredUserController::class, 'update']);

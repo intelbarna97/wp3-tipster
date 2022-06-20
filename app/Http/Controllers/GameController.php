@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Image;
 use App\Models\Game;
 use App\Models\League;
@@ -9,6 +10,7 @@ use App\Models\Team;
 use App\Models\User;
 use Dotenv\Parser\Lexer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class GameController extends Controller
@@ -120,9 +122,30 @@ class GameController extends Controller
         //
     }
 
+    public function comment(Game $game, Request $request)
+    {
+        $request->validate([
+            'comment'=>'required|min:1',
+        ]);
+
+        $comment = new Comment;
+        $comment->message = $request->comment;
+        $comment->user()->associate(Auth::user());
+
+        $game->comments()->save($comment);
+
+        return redirect()->route('game.details', $game);
+
+    }
+
     private function uploadImage(Request $request)
     {
         $file = $request->file('img');
+
+        if(!$file)
+        {
+            return;
+        }
 
         $filename = uniqid();
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2022. Máj 03. 15:58
+-- Létrehozás ideje: 2022. Jún 20. 13:39
 -- Kiszolgáló verziója: 10.4.22-MariaDB
 -- PHP verzió: 8.1.2
 
@@ -47,7 +47,33 @@ INSERT INTO `cities` (`id`, `name`, `country_id`, `created_at`, `updated_at`) VA
 (5, 'Milan', 5, '2022-04-23 15:26:18', '2022-04-23 15:26:18'),
 (6, 'Torino', 5, '2022-04-23 15:26:18', '2022-04-23 15:26:18'),
 (7, 'London', 1, '2022-04-26 18:12:08', '2022-04-26 18:12:08'),
-(8, 'Amsterdam', 12, '2022-04-30 16:11:02', '2022-04-30 16:11:02');
+(8, 'Amsterdam', 12, '2022-04-30 16:11:02', '2022-04-30 16:11:02'),
+(9, 'Liverpool', 1, '2022-06-18 15:19:52', '2022-06-18 15:19:52');
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL,
+  `message` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `commentable_type` varchar(255) COLLATE utf8_hungarian_ci DEFAULT NULL,
+  `commentable_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `comments`
+--
+
+INSERT INTO `comments` (`id`, `message`, `commentable_type`, `commentable_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'test', 'App\\Models\\Game', 7, 1, '2022-06-20 08:41:01', '2022-06-20 08:41:01'),
+(2, 'test', 'App\\Models\\Game', 6, 1, '2022-06-20 08:43:55', '2022-06-20 08:43:55'),
+(3, 'test2', 'App\\Models\\Game', 7, 1, '2022-06-20 09:28:04', '2022-06-20 09:28:04');
 
 -- --------------------------------------------------------
 
@@ -108,19 +134,21 @@ CREATE TABLE `games` (
   `team2_goals` int(11) NOT NULL,
   `result` enum('h','a','x') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `img` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `games`
 --
 
-INSERT INTO `games` (`id`, `league_id`, `team1_id`, `team2_id`, `team1_goals`, `team2_goals`, `result`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 2, 0, 0, 'h', '2022-04-23 09:24:58', '2022-04-23 09:24:58'),
-(2, 5, 5, 6, 0, 0, 'h', '2022-04-23 16:32:50', '2022-04-23 16:32:50'),
-(3, 4, 4, 6, 0, 0, 'x', '2022-04-24 14:11:41', '2022-04-24 14:11:41'),
-(4, 2, 2, 3, 0, 0, 'h', '2022-04-24 14:12:21', '2022-04-24 15:28:21'),
-(5, 3, 3, 5, 0, 0, 'a', '2022-04-26 16:16:02', '2022-04-26 16:16:02');
+INSERT INTO `games` (`id`, `league_id`, `team1_id`, `team2_id`, `team1_goals`, `team2_goals`, `result`, `created_at`, `updated_at`, `img`) VALUES
+(2, 5, 5, 6, 0, 0, 'h', '2022-04-23 16:32:50', '2022-04-23 16:32:50', NULL),
+(3, 4, 4, 6, 0, 0, 'x', '2022-04-24 14:11:41', '2022-04-24 14:11:41', NULL),
+(4, 2, 2, 3, 0, 0, 'h', '2022-04-24 14:12:21', '2022-04-24 15:28:21', NULL),
+(5, 3, 3, 2, 0, 0, 'h', '2022-04-26 16:16:02', '2022-06-11 17:37:16', NULL),
+(6, 1, 4, 8, 0, 0, 'h', '2022-06-18 15:22:36', '2022-06-20 09:32:27', NULL),
+(7, 6, 3, 8, 2, 1, 'h', '2022-06-18 16:04:27', '2022-06-20 09:30:58', '62ae13ab3f8b7.jpg');
 
 -- --------------------------------------------------------
 
@@ -175,7 +203,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (39, '2022_04_21_171627_create_cities_table', 1),
 (40, '2022_04_21_171649_create_teams_table', 1),
 (41, '2022_04_21_171707_create_games_table', 1),
-(42, '2022_04_21_173359_create_predictions_table', 1);
+(42, '2022_04_21_173359_create_predictions_table', 1),
+(43, '2022_06_11_180806_add_img_column_to_games_table', 2);
 
 -- --------------------------------------------------------
 
@@ -228,7 +257,19 @@ CREATE TABLE `predictions` (
 
 INSERT INTO `predictions` (`id`, `match_id`, `user_id`, `result`, `created_at`, `updated_at`) VALUES
 (1, 5, 2, 'h', NULL, NULL),
-(2, 4, 2, 'x', NULL, NULL);
+(2, 4, 2, 'x', NULL, NULL),
+(3, 3, 2, 'a', NULL, NULL),
+(4, 5, 1, 'a', NULL, NULL),
+(5, 4, 1, 'a', NULL, NULL),
+(6, 5, 5, 'x', NULL, NULL),
+(7, 5, 3, 'h', NULL, NULL),
+(8, 4, 3, 'h', NULL, NULL),
+(9, 3, 3, 'h', NULL, NULL),
+(10, 2, 3, 'a', NULL, NULL),
+(12, 3, 1, 'x', NULL, NULL),
+(13, 2, 1, 'a', NULL, NULL),
+(14, 2, 2, 'x', NULL, NULL),
+(15, 7, 1, 'h', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -251,13 +292,12 @@ CREATE TABLE `teams` (
 --
 
 INSERT INTO `teams` (`id`, `name`, `country_id`, `league_id`, `city_id`, `created_at`, `updated_at`) VALUES
-(1, 'Manchester City', 1, 1, 1, '2022-04-22 09:48:54', '2022-04-22 09:48:54'),
 (2, 'Barcelona', 2, 2, 2, '2022-04-22 09:48:54', '2022-04-22 09:48:54'),
 (3, 'Paris Saint Germain', 3, 3, 3, '2022-04-22 09:48:54', '2022-04-22 09:48:54'),
 (4, 'FC Bayern München', 4, 4, 4, '2022-04-23 15:26:18', '2022-04-23 15:26:18'),
 (5, 'AC Milan', 5, 5, 5, '2022-04-23 15:26:18', '2022-04-23 15:26:18'),
 (6, 'Juventus', 5, 5, 6, '2022-04-23 15:26:18', '2022-04-23 15:26:18'),
-(7, 'Ajax', 12, 6, 8, '2022-04-30 16:11:48', '2022-04-30 16:11:48');
+(8, 'Liverpool FC', 1, 1, 9, '2022-06-18 15:20:24', '2022-06-18 15:20:24');
 
 -- --------------------------------------------------------
 
@@ -273,16 +313,18 @@ CREATE TABLE `users` (
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `permission` int(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- A tábla adatainak kiíratása `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'a', 'a@a.com', NULL, '$2y$10$iI9./4qkPCziwbPplnZ1XuL9HhIyMgUcv6kH1Zkcw6Ost/kIEIMki', 'Rn2jh1hQmET0lboNKARkdlTQDUzfdvnVG12Jjc9viX6ljJNfFPG0tuTcuuqB', '2022-04-23 18:43:57', '2022-04-23 18:43:57'),
-(2, 'asd1', 'test@test.com', NULL, '$2y$10$jy7bs03WN8Uo46Z.EDXRw.h1lQGfFjwL.CWFP.eh/iTpeLFz6VMnu', NULL, '2022-04-24 10:39:58', '2022-04-26 18:08:01');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `permission`) VALUES
+(1, 'a', 'a@a.com', NULL, '$2y$10$iI9./4qkPCziwbPplnZ1XuL9HhIyMgUcv6kH1Zkcw6Ost/kIEIMki', '5P6U408fz813fivY0zshW8V8ZRdeLyMW9B0pVb70vRGaLl6Ogi0mi4dX34z8', '2022-04-23 18:43:57', '2022-04-23 18:43:57', 1),
+(2, 'asd1', 'test@test.com', NULL, '$2y$10$jy7bs03WN8Uo46Z.EDXRw.h1lQGfFjwL.CWFP.eh/iTpeLFz6VMnu', NULL, '2022-04-24 10:39:58', '2022-04-26 18:08:01', 0),
+(3, 'barna', 'intelbarna97@gmail.com', NULL, '$2y$10$gqsSRbXolg9HnzWOJZ86j.hCKt4O7/y0XjmQ5Kc4hroL/8CLJOF.2', NULL, '2022-05-23 14:57:01', '2022-05-23 14:57:01', 0);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -292,6 +334,13 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 -- A tábla indexei `cities`
 --
 ALTER TABLE `cities`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `country_id` (`country_id`);
+
+--
+-- A tábla indexei `comments`
+--
+ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -311,13 +360,17 @@ ALTER TABLE `failed_jobs`
 -- A tábla indexei `games`
 --
 ALTER TABLE `games`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `league_id` (`league_id`),
+  ADD KEY `team1_id` (`team1_id`),
+  ADD KEY `team2_id` (`team2_id`);
 
 --
 -- A tábla indexei `leagues`
 --
 ALTER TABLE `leagues`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `country_id` (`country_id`);
 
 --
 -- A tábla indexei `migrations`
@@ -343,13 +396,17 @@ ALTER TABLE `personal_access_tokens`
 -- A tábla indexei `predictions`
 --
 ALTER TABLE `predictions`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `match_id` (`match_id`);
 
 --
 -- A tábla indexei `teams`
 --
 ALTER TABLE `teams`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `country_id` (`country_id`),
+  ADD KEY `city_id` (`city_id`),
+  ADD KEY `league_id` (`league_id`);
 
 --
 -- A tábla indexei `users`
@@ -366,7 +423,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `cities`
 --
 ALTER TABLE `cities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT a táblához `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `countries`
@@ -384,7 +447,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT a táblához `games`
 --
 ALTER TABLE `games`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `leagues`
@@ -396,7 +459,7 @@ ALTER TABLE `leagues`
 -- AUTO_INCREMENT a táblához `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT a táblához `personal_access_tokens`
@@ -408,19 +471,58 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT a táblához `predictions`
 --
 ALTER TABLE `predictions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT a táblához `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Megkötések a kiírt táblákhoz
+--
+
+--
+-- Megkötések a táblához `cities`
+--
+ALTER TABLE `cities`
+  ADD CONSTRAINT `cities_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE;
+
+--
+-- Megkötések a táblához `games`
+--
+ALTER TABLE `games`
+  ADD CONSTRAINT `games_ibfk_1` FOREIGN KEY (`league_id`) REFERENCES `leagues` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `games_ibfk_2` FOREIGN KEY (`team1_id`) REFERENCES `teams` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `games_ibfk_3` FOREIGN KEY (`team2_id`) REFERENCES `teams` (`id`) ON DELETE CASCADE;
+
+--
+-- Megkötések a táblához `leagues`
+--
+ALTER TABLE `leagues`
+  ADD CONSTRAINT `leagues_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE;
+
+--
+-- Megkötések a táblához `predictions`
+--
+ALTER TABLE `predictions`
+  ADD CONSTRAINT `predictions_ibfk_1` FOREIGN KEY (`match_id`) REFERENCES `games` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `predictions_ibfk_2` FOREIGN KEY (`match_id`) REFERENCES `games` (`id`) ON DELETE CASCADE;
+
+--
+-- Megkötések a táblához `teams`
+--
+ALTER TABLE `teams`
+  ADD CONSTRAINT `teams_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `teams_ibfk_2` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `teams_ibfk_3` FOREIGN KEY (`league_id`) REFERENCES `leagues` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
